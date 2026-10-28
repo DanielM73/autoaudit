@@ -1,0 +1,27 @@
+# Entorno virtual de Python
+.venv/
+
+# Variables y credenciales
+.env
+*.key
+*.pem
+
+# Archivos generados por Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Archivos temporales y registros
+*.log
+*.tmp
+instance/
+
+# Editores
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

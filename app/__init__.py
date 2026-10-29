@@ -1,9 +1,11 @@
 import os
+from datetime import timedelta
 
 import psycopg
 from dotenv import load_dotenv
 from flask import Flask, jsonify
 
+from .auth import bp as auth_bp, csrf_token
 from .db import cerrar_conexion, obtener_estado_bd
 from .routes import bp as main_bp
 
@@ -21,9 +23,14 @@ def create_app():
         )
 
     app.config["SECRET_KEY"] = clave_secreta
+    app.config["SESSION_COOKIE_HTTPONLY"] = True
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=2)
 
     app.teardown_appcontext(cerrar_conexion)
+    app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
+    app.jinja_env.globals["csrf_token"] = csrf_token
 
     @app.get("/health")
     def health():

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Panel principal - AutoAudit
+{% endblock %}
+
+{% block content %}
+<section class="mb-4">
+    <h1 class="h3 mb-1">Panel principal</h1>
+
+    <p class="text-secondary mb-0">
+        Resumen del estado actual del sistema de auditoría.
+    </p>
+</section>
+
+<section class="row g-3 mb-4">
+    <div class="col-6 col-lg">
+        <div class="card resumen-card h-100">
+            <div class="card-body">
+                <p class="text-secondary mb-1">
+                    Tablas disponibles
+                </p>
+
+                <p class="display-6 mb-0">
+                    {{ resumen.tablas_disponibles }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg">
+        <div class="card resumen-card h-100">
+            <div class="card-body">
+                <p class="text-secondary mb-1">
+                    Tablas registradas
+                </p>
+
+                <p class="display-6 mb-0">
+                    {{ resumen.tablas_registradas }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg">
+        <div class="card resumen-card h-100">
+            <div class="card-body">
+                <p class="text-secondary mb-1">
+                    Configuraciones
+                </p>
+
+                <p class="display-6 mb-0">
+                    {{ resumen.configuraciones_activas }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg">
+        <div class="card resumen-card h-100">
+            <div class="card-body">
+                <p class="text-secondary mb-1">
+                    Triggers activos
+                </p>
+
+                <p class="display-6 mb-0">
+                    {{ resumen.triggers_activos }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg">
+        <div class="card resumen-card h-100">
+            <div class="card-body">
+                <p class="text-secondary mb-1">
+                    Cambios registrados
+                </p>
+
+                <p class="display-6 mb-0">
+                    {{ resumen.cambios_registrados }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="card">
+    <div class="card-header bg-white py-3">
+        <h2 class="h5 mb-0">Cambios recientes</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tabla</th>
+                    <th>Operación</th>
+                    <th>Usuario</th>
+                    <th>Clave del registro</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for cambio in cambios_recientes %}
+                    <tr>
+                        <td>{{ cambio.id_bitacora }}</td>
+
+                        <td>
+                            <code>{{ cambio.tabla }}</code>
+                        </td>
+
+                        <td>
+                            <span
+                                class="badge operacion-{{ cambio.operacion | lower }}"
+                            >
+                                {{ cambio.operacion }}
+                            </span>
+                        </td>
+
+                        <td>{{ cambio.usuario }}</td>
+
+                        <td>
+                            <code>
+                                {{ cambio.clave_registro | tojson }}
+                            </code>
+                        </td>
+
+                        <td>
+                            {{ cambio.fecha_evento.strftime(
+                                "%d/%m/%Y %H:%M:%S"
+                            ) }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td
+                            colspan="6"
+                            class="text-center text-secondary py-4"
+                        >
+                            Todavía no hay cambios registrados.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

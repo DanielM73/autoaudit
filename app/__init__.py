@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify
 
 from .db import cerrar_conexion, obtener_estado_bd
+from .routes import bp as main_bp
 
 
 def create_app():
@@ -22,6 +23,7 @@ def create_app():
     app.config["SECRET_KEY"] = clave_secreta
 
     app.teardown_appcontext(cerrar_conexion)
+    app.register_blueprint(main_bp)
 
     @app.get("/health")
     def health():

@@ -46,7 +46,7 @@ erDiagram
 
     USUARIO_AUDITADO {
         bigint id_usuario PK
-        varchar usuario_bd UK
+        varchar usuario_bd
         varchar usuario_aplicacion
         varchar nombre_mostrar
         boolean activo

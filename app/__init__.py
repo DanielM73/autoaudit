@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify
 
 from .auth import bp as auth_bp, csrf_token
+from .configuracion import bp as configuracion_bp
 from .db import cerrar_conexion, obtener_estado_bd
 from .routes import bp as main_bp
 
@@ -29,6 +30,7 @@ def create_app():
 
     app.teardown_appcontext(cerrar_conexion)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(configuracion_bp)
     app.register_blueprint(main_bp)
     app.jinja_env.globals["csrf_token"] = csrf_token
 
